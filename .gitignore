@@ -37,5 +37,11 @@ nosetests.xml
 # Vim
 *.swp
 
+# PyCharm
+.idea/
+
+# Virtualenv
+venv/
+
 .cache
 __pycache__
