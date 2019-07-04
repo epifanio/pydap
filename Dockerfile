@@ -32,6 +32,7 @@ RUN pip3 install git+https://github.com/paylogic/py2deb
 
 # Add a Directory where to store packages
 RUN mkdir /pkg
+ADD docker_test/debcontrol.sh /pkg/debcontrol.sh
 
 # Install Pydap dependencies
 
@@ -62,7 +63,7 @@ RUN apt-get install -y python3-chardet \
                        python3-netcdf4 \
                        python3-sqlalchemy \
                        -o APT::Install-Suggests=0 -o APT::Install-Recommends=0
-
+RUN echo "####    ####    ####    ####    ####    ####    ####"
 # Build a debian package for pydap from git:master
 RUN git clone https://github.com/epifanio/pydap
 RUN cd pydap && py2deb \
