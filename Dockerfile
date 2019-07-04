@@ -8,9 +8,14 @@ RUN apt-get install -y git \
                        apache2 \
                        nano \
                        libapache2-mod-wsgi-py3 \
+                       build-essential \
                        -o APT::Install-Suggests=0 \
                        -o APT::Install-Recommends=0
-
+# build-eesential is not needed,
+# but adding it anyway for many reason.
+# is is useful when playing with the image
+# and debug packages that requires to be built from src
+ 
 # Install minimal debian python build environment
 RUN apt-get install -y dpkg-dev  \
                        fakeroot  \
@@ -22,6 +27,7 @@ RUN apt-get install -y dpkg-dev  \
                        -o APT::Install-Recommends=0
 
 # Install py2deb
+
 RUN pip3 install git+https://github.com/paylogic/py2deb
 
 # Add a Directory where to store packages
@@ -33,7 +39,8 @@ RUN mkdir /pkg
 # Use a webob fork, as the actual version is buggy
 # it fails in serving netcdf files via pydap
 # when the description has unicode characters in it
-# see issue on github []
+# see issue on github [https://github.com/pydap/pydap/issues/196]
+
 RUN git clone https://github.com/epifanio/webob
 RUN cd webob && py2deb \
     --repository=/pkg --name-prefix=python3 .
@@ -53,10 +60,11 @@ RUN apt-get install -y python3-chardet \
                        python3-soupsieve \
                        python3-urllib3 \
                        python3-netcdf4 \
+                       python3-sqlalchemy \
                        -o APT::Install-Suggests=0 -o APT::Install-Recommends=0
 
 # Build a debian package for pydap from git:master
-RUN git clone https://github.com/pydap/pydap
+RUN git clone https://github.com/epifanio/pydap
 RUN cd pydap && py2deb \
     --use-system-package=numpy,python3-numpy \
     --use-system-package=Webob,python3-webob \
