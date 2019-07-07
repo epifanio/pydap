@@ -39,6 +39,8 @@ nosetests.xml
 
 # PyCharm
 .idea/
+# Spyder
+.spyproject/
 
 # Virtualenv
 venv/
