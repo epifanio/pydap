@@ -44,9 +44,9 @@ class DASResponse(BaseResponse):
     def __iter__(self):
         for line in das(self.dataset):
             try:
-                yield line.encode('ascii')
-            except UnicodeDecodeError:
                 yield line.encode('UTF-8')
+            except UnicodeDecodeError:
+                yield line.encode('ascii')
 
 
 @singledispatch
